@@ -1,4 +1,4 @@
-﻿// Program.cs
+﻿
 using ToDoLists;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -21,7 +21,6 @@ class Program
 
         SaveLists(allLists, "lists.json");
 
-        Console.WriteLine(":");
 
         Console.WriteLine($"New list created! ID: {newList.TodoListId}, Name: {newList.TodoListTitle}");
         Console.WriteLine("You can now add tasks to your list");
