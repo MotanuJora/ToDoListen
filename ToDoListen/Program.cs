@@ -1,4 +1,4 @@
-
+﻿
 using ToDoLists;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -79,8 +79,8 @@ class Program
 
                         if (listToRename != null) { 
                         
-                            Console.Write("What would you like it changed to: ");
-                            string newListName = Console.ReadLine();
+                            Console.Write("What would you like it changed to?: ");
+                            string newListName = Console.ReadLine() ?? "N/A";
 
                             listToRename.TodoListTitle = newListName;
                             SaveLists(allLists, "lists.json");
@@ -147,9 +147,40 @@ class Program
                         Console.WriteLine($"{i + 1}: {allLists[i].TodoListTitle}");
                         foreach (var task in allLists[i].Tasks)
                         {
-                            Console.WriteLine($" - {task.TodoTaskTitle}");
+                            if (task.Finished == true) {
+                                Console.WriteLine($" {task.TodoItemId} - {task.TodoTaskTitle} (finished)");
+                                
+                            
+                            } else { Console.WriteLine($" {task.TodoItemId} - {task.TodoTaskTitle}"); }
+                            
+                            
+                            
+
 
                         }
+
+                        Console.WriteLine("Would you like to mark any tasks as finished? (Y/N):");
+                        userInput = Console.ReadLine() ?? string.Empty;
+                        if (userInput == "Y")
+                        {
+                            Console.WriteLine("Which task?");
+                            userInput = Console.ReadLine() ?? string.Empty ;
+
+                            if (int.TryParse(userInput, out int id))
+                            {
+                                TodoItem TasktoMarkFinished = allLists[i].Tasks.Find (l => l.TodoItemId == id);
+
+                                if (TasktoMarkFinished != null) { 
+                                TasktoMarkFinished.Finished = true;
+                                    Console.WriteLine("Task was successfully marked as finished.");
+
+                                } else { Console.WriteLine("No task found with that ID."); }
+                            }
+
+                        }
+                        
+
+
                     }
 
 
@@ -169,6 +200,10 @@ class Program
             }
 
                 Console.WriteLine("Press any key to continue...");
+            
+
+            
+
                 
             }
     }
