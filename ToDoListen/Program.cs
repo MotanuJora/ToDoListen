@@ -199,7 +199,6 @@ class Program
                 Console.WriteLine("Invalid input");
             }
 
-                Console.WriteLine("Press any key to continue...");
             
 
             
