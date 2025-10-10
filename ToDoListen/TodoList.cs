@@ -24,7 +24,6 @@ namespace ToDoLists
             TodoListTitle = todoListTitle;
             TodoListDescription = string.Empty;
             Tasks = new List<TodoItem>();
-            Console.WriteLine($"{TodoListTitle} list created!");
         }
 
         public void AddTask(string description)

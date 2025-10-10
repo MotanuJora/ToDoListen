@@ -11,26 +11,30 @@ class Program
 
         Console.WriteLine("TodoList App V. 1.0");
 
-        ShowLists(allLists);
-
-        while (true)
+        if (allLists.Count == 0)
         {
-            Console.WriteLine();
-            Console.WriteLine("1. Create List");
-            Console.WriteLine("2. Show Lists");
-            Console.WriteLine("3. Create Task");
-            //Console.WriteLine("4. Show Tasks");
-            Console.WriteLine("0. Exit");
-            Console.Write("Choose: ");
+            Console.WriteLine("No lists available. Go ahead and create a new one!");
+            return;
+        }
 
-            string userInput = Console.ReadLine() ?? string.Empty;
-
-            if (userInput == "0")
+            while (true)
             {
-                Console.WriteLine("Exit");
-                SaveLists(allLists, "lists.json");
-                break;
-            }
+                Console.WriteLine();
+                Console.WriteLine("1. Create List");
+                Console.WriteLine("2. Show Lists");
+                Console.WriteLine("3. Create Task");
+                //Console.WriteLine("4. Show Tasks");
+                Console.WriteLine("0. Exit");
+                Console.Write("Choose: ");
+
+                string userInput = Console.ReadLine() ?? string.Empty;
+
+                if (userInput == "0")
+                {
+                    Console.WriteLine("Exit");
+                    SaveLists(allLists, "lists.json");
+                    break;
+                }
 
             if (userInput == "1")
             {
@@ -48,7 +52,12 @@ class Program
                     Console.WriteLine("Invalid list name");
                 }
             }
-            // else if (input =-)
+            else if (userInput == "2")
+            {
+                Console.WriteLine("Here are your lists:");
+                ShowLists(allLists);
+            }
+
 
             else if (userInput == "3")
             {
@@ -83,9 +92,9 @@ class Program
                 Console.WriteLine("Invalid input");
             }
 
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
     }
 
     static List<TodoList> LoadLists(string path)
@@ -110,12 +119,7 @@ class Program
 
     public static void ShowLists(List<TodoList> allLists)
     {
-        if (allLists.Count == 0)
-        {
-            Console.WriteLine("No lists available.");
-            return;
-        }
-
+        
         for (int i = 0; i < allLists.Count; i++)
         {
             Console.WriteLine($" {i + 1}. {allLists[i].TodoListTitle}");
