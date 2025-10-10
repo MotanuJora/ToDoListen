@@ -1,4 +1,4 @@
-﻿
+
 using ToDoLists;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,8 +14,7 @@ class Program
 
         if (allLists.Count == 0)
         {
-            Console.WriteLine("No lists available. Go ahead and create a new one!");
-            return;
+            Console.WriteLine("No lists available. Go ahead and create a new one!\n");
         }
 
             while (true)
@@ -56,6 +55,52 @@ class Program
             {
                 Console.WriteLine("Here are your lists:");
                 ShowLists(allLists);
+
+                Console.WriteLine("\nWould you like to change their names? (Y/N): ");
+                userInput = Console.ReadLine() ?? string.Empty;
+
+                if (userInput == "Y")
+                {
+
+                    foreach (var list in allLists)
+                    {
+                        Console.WriteLine($"ID: {list.TodoListId} | Title: {list.TodoListTitle}");
+                    }
+
+                    Console.WriteLine("\nWhich list would you like to change the name of? (ID): ");
+                    
+                                                        
+                    userInput = Console.ReadLine() ?? string.Empty;
+
+                    if (int.TryParse(userInput, out int idForRename))
+
+                    {
+                        TodoList listToRename = allLists.Find(l => l.TodoListId == idForRename);
+
+                        if (listToRename != null) { 
+                        
+                            Console.Write("What would you like it changed to: ");
+                            string newListName = Console.ReadLine();
+
+                            listToRename.TodoListTitle = newListName;
+                            SaveLists(allLists, "lists.json");
+
+                            Console.WriteLine("List renamed successfully!");
+
+                        }
+                        else
+                        {
+                           Console.WriteLine("No list found with that ID.");
+                        }
+                    } else { Console.WriteLine("Invalid ID format."); }
+
+                    
+
+                                                         
+    
+
+                }
+           
             }
 
 
@@ -103,12 +148,29 @@ class Program
                         foreach (var task in allLists[i].Tasks)
                         {
                             Console.WriteLine($" - {task.TodoTaskTitle}");
+
                         }
                     }
+
+
                 }
             }
-        Console.WriteLine("Press any key to continue...");         
-        }
+                
+            
+
+
+
+
+
+
+            else
+            {
+                Console.WriteLine("Invalid input");
+            }
+
+                Console.WriteLine("Press any key to continue...");
+                
+            }
     }
 
     static List<TodoList> LoadLists(string path)
