@@ -5,35 +5,37 @@ using System.Text.Json.Serialization;
 
 class Program
 {
-    static void Main()
+    public static void Main()
     {
         List<TodoList> allLists = LoadLists("lists.json");
 
         Console.WriteLine("TodoList App V. 1.0");
 
+        ShowLists(allLists);
+
         while (true)
         {
             Console.WriteLine();
             Console.WriteLine("1. Create List");
-            //Console.WriteLine("2. Show Lists");
+            Console.WriteLine("2. Show Lists");
             Console.WriteLine("3. Create Task");
             //Console.WriteLine("4. Show Tasks");
             Console.WriteLine("0. Exit");
             Console.Write("Choose: ");
 
-            string input = Console.ReadLine() ?? string.Empty;
+            string userInput = Console.ReadLine() ?? string.Empty;
 
-            if (input == "0")
+            if (userInput == "0")
             {
                 Console.WriteLine("Exit");
                 SaveLists(allLists, "lists.json");
                 break;
             }
 
-            if (input == "1")
+            if (userInput == "1")
             {
                 Console.Write("Please enter the name of your new list: ");
-                string userInput = Console.ReadLine() ?? string.Empty;
+                userInput = Console.ReadLine() ?? string.Empty;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
                     TodoList newList = new TodoList(userInput);
@@ -46,7 +48,9 @@ class Program
                     Console.WriteLine("Invalid list name");
                 }
             }
-            else if (input == "3")
+            // else if (input =-)
+
+            else if (userInput == "3")
             {
                 if (allLists.Count == 0)
                 {
@@ -102,6 +106,21 @@ class Program
     {
         string json = JsonSerializer.Serialize(allLists, new JsonSerializerOptions { WriteIndented = true });
         System.IO.File.WriteAllText(lists, json);
+    }
+
+    public static void ShowLists(List<TodoList> allLists)
+    {
+        if (allLists.Count == 0)
+        {
+            Console.WriteLine("No lists available.");
+            return;
+        }
+
+        for (int i = 0; i < allLists.Count; i++)
+        {
+            Console.WriteLine($" {i + 1}. {allLists[i].TodoListTitle}");
+        }
+
     }
 }
      
