@@ -218,6 +218,9 @@ class Program
 
                                 if (TasktoMarkFinished != null) { 
                                 TasktoMarkFinished.Finished = true;
+
+                                    SaveLists(allLists, "lists.json");
+
                                     Console.WriteLine("Task was successfully marked as finished.");
 
                                 } else { Console.WriteLine("No task found with that ID."); }
