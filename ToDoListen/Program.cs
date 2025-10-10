@@ -88,7 +88,7 @@ class Program
                 }
             }
 
-            if (userInput == "4")
+            else if (userInput == "4")
             {
                 Console.WriteLine("Here are your tasks:");
                 if (allLists.Count == 0)
@@ -107,20 +107,8 @@ class Program
                     }
                 }
             }
-
-
-
-
-
-
-            else
-            {
-                Console.WriteLine("Invalid input");
-            }
-
-                Console.WriteLine("Press any key to continue...");
-                
-            }
+        Console.WriteLine("Press any key to continue...");         
+        }
     }
 
     static List<TodoList> LoadLists(string path)

@@ -31,34 +31,7 @@ namespace ToDoLists
             if (string.IsNullOrWhiteSpace(todoTaskTitle)) return;
             Tasks.Add(new TodoItem(todoTaskTitle));
         }
-
-        public void ShowTasks()
-        {
-            Console.WriteLine($"{TodoListTitle}");
-            if (Tasks.Count == 0)
-            {
-                Console.WriteLine("No Tasks available on this List");
-                return;
-            }
-
-            for (int i = 0; i < Tasks.Count; i++)
-            {
-                Console.WriteLine($" {i + 1}. {Tasks[i]}");
-            }
-        }
-
-        
-        }
-
-        // public void RemoveTask(string description) {
-        
-        
-        
-        
-
-
-
-     
-    }
+     }
+}
 
 
