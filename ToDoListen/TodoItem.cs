@@ -12,12 +12,14 @@ namespace ToDoLists
         public int TodoItemId { get; set; }
         public string TodoTaskTitle { get; set; }
         public bool Finished { get; set; }
+        public DateTime? DueDate { get; set; }
 
         public TodoItem(string todoTaskTitle)
         {
             TodoItemId = _nextId++;
             TodoTaskTitle = todoTaskTitle;
             Finished = false;
+            DueDate = null;
         }
 
         public void MarkAsFinished()
@@ -25,9 +27,15 @@ namespace ToDoLists
             Finished = true;
         }
 
+        public void SetDueDate(DateTime? dueDate)
+        {
+            DueDate = dueDate;
+        }
+
         public override string ToString()
         {
-            return Finished ? $"Yes {TodoTaskTitle}" : $"No {TodoTaskTitle}";
+            string due = DueDate.HasValue ? DueDate.Value.ToString("dd-MM-yyyy") : "No due date";
+            return Finished ? $"Yes {TodoTaskTitle} (Due: {due})" : $"No {TodoTaskTitle} (Due: {due})";
         }
     }
 }

@@ -19,23 +19,24 @@ class Program
             Console.WriteLine("No lists available. Go ahead and create a new one!\n");
         }
 
-            while (true)
+        while (true)
+        {
+            Console.WriteLine("1. Create List");
+            Console.WriteLine("2. Show Lists");
+            Console.WriteLine("3. Create Task");
+            Console.WriteLine("4. Show Tasks");
+            Console.WriteLine("5. Set Due Date");
+            Console.WriteLine("0. Exit");
+            Console.Write("Choose: ");
+
+            string userInput = Console.ReadLine() ?? string.Empty;
+
+            if (userInput == "0")
             {
-                Console.WriteLine("1. Create List");
-                Console.WriteLine("2. Show Lists");
-                Console.WriteLine("3. Create Task");
-                Console.WriteLine("4. Show Tasks");
-                Console.WriteLine("0. Exit");
-                Console.Write("Choose: ");
-
-                string userInput = Console.ReadLine() ?? string.Empty;
-
-                if (userInput == "0")
-                {
-                    Console.WriteLine("Exit");
-                    SaveLists(allLists, "lists.json");
-                    break;
-                }
+                Console.WriteLine("Exit");
+                SaveLists(allLists, "lists.json");
+                break;
+            }
 
             if (userInput == "1")
             {
@@ -231,25 +232,78 @@ class Program
 
                 }
             }
-                
-            
-
-
-
-
-
-
-            else
+            else if (userInput == "5")
             {
-                Console.WriteLine("Invalid input");
+                if (allLists.Count == 0)
+                {
+                    Console.WriteLine("No Lists available");
+                }
+                else
+                {
+                    Console.WriteLine("Select the list that contains the task:");
+                    for (int i = 0; i < allLists.Count; i++)
+                        Console.WriteLine($"{i + 1}. {allLists[i].TodoListTitle}");
+
+                    Console.Write("Enter list number: ");
+                    string sel = Console.ReadLine() ?? string.Empty;
+                    if (int.TryParse(sel, out int listIndex) && listIndex > 0 && listIndex <= allLists.Count)
+                    {
+                        var selectedList = allLists[listIndex - 1];
+                        if (selectedList.Tasks.Count == 0)
+                        {
+                            Console.WriteLine("This list has no tasks.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Select the task to set/clear a due date:");
+                            for (int t = 0; t < selectedList.Tasks.Count; t++)
+                            {
+                                var task = selectedList.Tasks[t];
+                                string due = task.DueDate.HasValue ? task.DueDate.Value.ToString("dd-MM-yyyy") : "No due date";
+                                Console.WriteLine($"{t + 1}. {task.TodoTaskTitle} (Due: {due})");
+                            }
+
+                            Console.Write("Enter task number: ");
+                            string tsel = Console.ReadLine() ?? string.Empty;
+                            if (int.TryParse(tsel, out int taskIndex) && taskIndex > 0 && taskIndex <= selectedList.Tasks.Count)
+                            {
+                                var task = selectedList.Tasks[taskIndex - 1];
+                                Console.WriteLine("Enter due date in format DD-MM-YYYY, or leave empty to clear the due date:");
+                                string dateInput = Console.ReadLine() ?? string.Empty;
+                                if (string.IsNullOrWhiteSpace(dateInput))
+                                {
+                                    task.SetDueDate(null);
+                                    SaveLists(allLists, "lists.json");
+                                    Console.WriteLine("Due date cleared.");
+                                }
+                                else
+                                {
+                                    if (DateTime.TryParseExact(dateInput, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dueDate))
+                                    {
+                                        task.SetDueDate(dueDate);
+                                        SaveLists(allLists, "lists.json");
+                                        Console.WriteLine($"Due date set to {dueDate:dd-MM-yyyy}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid date format. Use DD-MM-YYYY.");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid task selection.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid list selection.");
+                    }
+                }
             }
-
+        }
             
-
-            
-
-                
-            }
     }
 
     static List<TodoList> LoadLists(string path)
@@ -267,10 +321,10 @@ class Program
     }
 
     static void SaveLists(List<TodoList> allLists, string lists)
-    {
-        string json = JsonSerializer.Serialize(allLists, new JsonSerializerOptions { WriteIndented = true });
-        System.IO.File.WriteAllText(lists, json);
-    }
+        {
+            string json = JsonSerializer.Serialize(allLists, new JsonSerializerOptions { WriteIndented = true });
+            System.IO.File.WriteAllText(lists, json);
+        }
 
     public static void ShowLists(List<TodoList> allLists)
     {
