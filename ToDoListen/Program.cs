@@ -2,6 +2,7 @@
 using ToDoLists;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Globalization;
 
 class Program
 {
@@ -19,11 +20,10 @@ class Program
 
             while (true)
             {
-                Console.WriteLine();
                 Console.WriteLine("1. Create List");
                 Console.WriteLine("2. Show Lists");
                 Console.WriteLine("3. Create Task");
-                //Console.WriteLine("4. Show Tasks");
+                Console.WriteLine("4. Show Tasks");
                 Console.WriteLine("0. Exit");
                 Console.Write("Choose: ");
 
@@ -76,8 +76,8 @@ class Program
                     if (int.TryParse(sel, out int index) && index > 0 && index <= allLists.Count)
                     {
                         Console.Write("Enter a task: ");
-                        string description = Console.ReadLine() ?? string.Empty;
-                        allLists[index - 1].AddTask(description);
+                        string todoTaskTitle = Console.ReadLine() ?? string.Empty;
+                        allLists[index - 1].AddTask(todoTaskTitle);
                         SaveLists(allLists, "lists.json");
                         Console.WriteLine("Task added");
                     }
@@ -87,13 +87,39 @@ class Program
                     }
                 }
             }
+
+            if (userInput == "4")
+            {
+                Console.WriteLine("Here are your tasks:");
+                if (allLists.Count == 0)
+                {
+                    Console.WriteLine("No lists available.");
+                }
+                else
+                {
+                    for (int i = 0; i < allLists.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}: {allLists[i].TodoListTitle}");
+                        foreach (var task in allLists[i].Tasks)
+                        {
+                            Console.WriteLine($" - {task.TodoTaskTitle}");
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+
             else
             {
                 Console.WriteLine("Invalid input");
             }
 
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
+                
             }
     }
 

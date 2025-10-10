@@ -26,10 +26,10 @@ namespace ToDoLists
             Tasks = new List<TodoItem>();
         }
 
-        public void AddTask(string description)
+        public void AddTask(string todoTaskTitle)
         {
-            if (string.IsNullOrWhiteSpace(description)) return;
-            Tasks.Add(new TodoItem(description));
+            if (string.IsNullOrWhiteSpace(todoTaskTitle)) return;
+            Tasks.Add(new TodoItem(todoTaskTitle));
         }
 
         public void ShowTasks()
