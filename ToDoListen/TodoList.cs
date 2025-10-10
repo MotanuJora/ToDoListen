@@ -8,26 +8,44 @@ using System.Threading.Tasks;
 namespace ToDoLists
 {
 
-    class TodoList
+    public class TodoList
     {
-
-        public string TodoListTitle {  get; set; }
-        private string TodoListDescription {  get; set; }
-        public bool IsDone = false;
-        public int TodoListId { get;}
-
-
-
-        public List<string> Tasks { get; set; }
-
         private static int _nextId = 1;
-        public TodoList(string todoListTitle) {
 
+        public string TodoListTitle { get; set; }
+    private string TodoListDescription { get; set; } = string.Empty;
+        public bool IsDone = false;
+        public int TodoListId { get; }
+        public List<TodoItem> Tasks { get; set; }
+
+        public TodoList(string todoListTitle)
+        {
             TodoListId = _nextId++;
             TodoListTitle = todoListTitle;
-            Tasks = new List<string>();
+            TodoListDescription = string.Empty;
+            Tasks = new List<TodoItem>();
             Console.WriteLine($"{TodoListTitle} list created!");
-        
+        }
+
+        public void AddTask(string description)
+        {
+            if (string.IsNullOrWhiteSpace(description)) return;
+            Tasks.Add(new TodoItem(description));
+        }
+
+        public void ShowTasks()
+        {
+            Console.WriteLine($"{TodoListTitle}");
+            if (Tasks.Count == 0)
+            {
+                Console.WriteLine("No Tasks available on this List");
+                return;
+            }
+
+            for (int i = 0; i < Tasks.Count; i++)
+            {
+                Console.WriteLine($" {i + 1}. {Tasks[i]}");
+            }
         }
         
         
@@ -38,4 +56,5 @@ namespace ToDoLists
 
      
     }
+
 }
