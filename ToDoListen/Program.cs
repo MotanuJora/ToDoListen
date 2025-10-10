@@ -3,6 +3,8 @@ using ToDoLists;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.ComponentModel.Design;
 
 class Program
 {
@@ -56,51 +58,94 @@ class Program
                 Console.WriteLine("Here are your lists:");
                 ShowLists(allLists);
 
-                Console.WriteLine("\nWould you like to change their names? (Y/N): ");
+
+
+                Console.WriteLine("\nWhat would you like to do?");
+                Console.WriteLine("1. Change list names.");
+                Console.WriteLine("2. Delete list");
                 userInput = Console.ReadLine() ?? string.Empty;
 
-                if (userInput == "Y")
+                switch (userInput)
                 {
-
-                    foreach (var list in allLists)
-                    {
-                        Console.WriteLine($"ID: {list.TodoListId} | Title: {list.TodoListTitle}");
-                    }
-
-                    Console.WriteLine("\nWhich list would you like to change the name of? (ID): ");
-                    
-                                                        
-                    userInput = Console.ReadLine() ?? string.Empty;
-
-                    if (int.TryParse(userInput, out int idForRename))
-
-                    {
-                        TodoList listToRename = allLists.Find(l => l.TodoListId == idForRename);
-
-                        if (listToRename != null) { 
-                        
-                            Console.Write("What would you like it changed to?: ");
-                            string newListName = Console.ReadLine() ?? "N/A";
-
-                            listToRename.TodoListTitle = newListName;
-                            SaveLists(allLists, "lists.json");
-
-                            Console.WriteLine("List renamed successfully!");
-
-                        }
-                        else
+                    case "1":
+                        foreach (var list in allLists)
                         {
-                           Console.WriteLine("No list found with that ID.");
+                            Console.WriteLine($"ID: {list.TodoListId} | Title: {list.TodoListTitle}");
                         }
-                    } else { Console.WriteLine("Invalid ID format."); }
 
-                    
+                        Console.WriteLine("\nWhich list would you like to change the name of? (ID): ");
 
-                                                         
-    
 
+                        userInput = Console.ReadLine() ?? string.Empty;
+
+                        if (int.TryParse(userInput, out int idForRename))
+
+                        {
+                            TodoList listToRename = allLists.Find(l => l.TodoListId == idForRename);
+
+                            if (listToRename != null)
+                            {
+
+                                Console.Write("What would you like it changed to?: ");
+                                string newListName = Console.ReadLine() ?? "N/A";
+
+                                listToRename.TodoListTitle = newListName;
+                                SaveLists(allLists, "lists.json");
+
+                                Console.WriteLine("List renamed successfully!");
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("No list found with that ID.");
+                            }
+                        }
+                        else { Console.WriteLine("Invalid ID format."); }
+                        break;
+
+                        case "2":
+                        foreach (var list in allLists)
+                        {
+                            Console.WriteLine($"ID: {list.TodoListId} | Title: {list.TodoListTitle}");
+                        }
+                        Console.WriteLine("Which list would you like to delete?(ID):");
+                        userInput = Console.ReadLine() ?? string.Empty;
+
+
+                        if (int.TryParse(userInput, out int idForDelete))
+                        {
+                            TodoList listToDelete = allLists.Find(l => l.TodoListId == idForDelete);
+
+                            if (listToDelete != null)
+                            {
+                                Console.WriteLine($"Are you sure you want to delete  {listToDelete.TodoListTitle}, as well as all of its tasks permanently? (Y/N):");
+                                userInput = Console.ReadLine() ?? string.Empty;
+                                if (userInput == "Y")
+                                {
+                                    allLists.Remove(listToDelete);
+                                    SaveLists(allLists, "lists.json");
+                                    Console.WriteLine($"List '{listToDelete}' was deleted successfully.\n");
+
+                                    Console.WriteLine("Do you wish to delete more lists? (Y/N):");
+                                    userInput = Console.ReadLine() ?? string.Empty;
+
+                                    if (userInput == "Y") { goto case "2"; }
+                                    else { break; }
+                                }
+                                else { Console.WriteLine("List was not deleted."); }
+
+                            } else { Console.WriteLine("Invalid ID. No lists were deleted."); }
+                        }
+                        break;
+
+                       
+
+                
                 }
-           
+
+
+
+                        
             }
 
 
