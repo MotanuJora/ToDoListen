@@ -10,13 +10,13 @@ namespace ToDoLists
     {
         private static int _nextId = 1;
         public int TodoItemId { get; set; }
-        public string Description { get; set; }
+        public string TodoTaskTitle { get; set; }
         public bool Finished { get; set; }
 
-        public TodoItem(string description)
+        public TodoItem(string todoTaskTitle)
         {
             TodoItemId = _nextId++;
-            Description = description;
+            TodoTaskTitle = todoTaskTitle;
             Finished = false;
         }
 
@@ -27,7 +27,7 @@ namespace ToDoLists
 
         public override string ToString()
         {
-            return Finished ? $"Yes {Description}" : $"No {Description}";
+            return Finished ? $"Yes {TodoTaskTitle}" : $"No {TodoTaskTitle}";
         }
     }
 }
