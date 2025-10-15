@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.ComponentModel.Design;
+using System.ComponentModel;
 
 class Program
 {
@@ -56,6 +57,12 @@ class Program
             }
             else if (userInput == "2")
             {
+
+                if (allLists.Count == 0)
+                {
+                    Console.WriteLine("No Lists available");
+                    break;
+                }
                 Console.WriteLine("Here are your lists:");
                 ShowLists(allLists);
 
@@ -64,7 +71,17 @@ class Program
                 Console.WriteLine("\nWhat would you like to do?");
                 Console.WriteLine("1. Change list names.");
                 Console.WriteLine("2. Delete list");
+                Console.WriteLine("0. Back to the Menu");
                 userInput = Console.ReadLine() ?? string.Empty;
+
+
+                if (userInput == "0")
+                {
+                    Console.WriteLine("Back to the Menu...");
+
+                }
+
+
 
                 switch (userInput)
                 {
@@ -104,7 +121,14 @@ class Program
                         else { Console.WriteLine("Invalid ID format."); }
                         break;
 
-                        case "2":
+                    case "2":
+
+                        if (allLists.Count == 0)
+                        {
+                            Console.WriteLine("No Lists available");
+                            break;
+                        }
+
                         foreach (var list in allLists)
                         {
                             Console.WriteLine($"ID: {list.TodoListId} | Title: {list.TodoListTitle}");
@@ -135,22 +159,21 @@ class Program
                                 }
                                 else { Console.WriteLine("List was not deleted."); }
 
-                            } else { Console.WriteLine("Invalid ID. No lists were deleted."); }
+                            }
+                            else { Console.WriteLine("Invalid ID. No lists were deleted."); }
                         }
                         break;
 
-                       
 
-                
                 }
 
 
 
-                        
+
             }
 
 
-            else if (userInput == "3")
+            if (userInput == "3")
             {
                 if (allLists.Count == 0)
                 {
