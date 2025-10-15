@@ -75,13 +75,6 @@ class Program
                 userInput = Console.ReadLine() ?? string.Empty;
 
 
-                if (userInput == "0")
-                {
-                    Console.WriteLine("Back to the Menu...");
-
-                }
-
-
 
                 switch (userInput)
                 {
@@ -179,6 +172,13 @@ class Program
                 {
                     Console.WriteLine("No Lists available");
                 }
+
+                if (userInput == "0")
+                {
+                    Console.WriteLine("Back to the Menu...");
+
+                }
+
                 else
                 {
                     Console.WriteLine("To which list do you want to add a task?");
